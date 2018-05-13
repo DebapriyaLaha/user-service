@@ -15,6 +15,8 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			 	sh 'java -version'
 			 	sh 'mvn -version'
 			 	sh 'pwd'
+			 	sh 'cd user-service'
+			 	sh 'mvn clean install'
 			 }
 		}
 	}
