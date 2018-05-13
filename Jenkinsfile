@@ -7,13 +7,13 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 	node('user-service-pod-jenkins') {	
 		stage('checkout') {
 			 container('maven') {
+			 	sh 'ls -lrth'
 			 	checkout scm
 			 	sh 'ls -lrth'
 			 }
 		}
 		stage('checkout') {
 			 container('maven') {
-			 	sh 'cd user-service'
 			 	sh 'mvn clean install'
 			 }
 		}
