@@ -13,6 +13,7 @@ podTemplate(label: 'mypod', containers: [
 			 		hostname
 			 		ls -lrth /var/run/docker.sock
 			 	"""
+			 	checkout scm
 			 }
 		}
 	
