@@ -8,13 +8,11 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('checkout') {
 			 container('maven') {
 			 	checkout scm
+			 	sh 'ls -lrth'
 			 }
 		}
 		stage('checkout') {
 			 container('maven') {
-			 	sh 'java -version'
-			 	sh 'mvn -version'
-			 	sh 'pwd'
 			 	sh 'cd user-service'
 			 	sh 'mvn clean install'
 			 }
