@@ -1,0 +1,41 @@
+server:
+    port: 8086
+    servlet.context-path: /user-service
+    
+spring: 
+    main:
+        banner-mode: "off" 
+    jpa:
+        show-sql: true
+        properties.hibernate.format_sql: true
+        hibernate.ddl-auto: create-drop
+    datasource:
+        platform: h2
+        driverClassName: org.h2.Driver
+        url: jdbc:h2:mem:test;MODE=Oracle
+    h2:
+     console:
+        enabled: true
+      
+logging: 
+    level: 
+        org: 
+            springframework: INFO
+            hibernate:
+              type: INFO
+              
+endpoints:
+   prometheus:
+    enabled: true
+    
+management:
+  security.enabled: false
+  endpoints:
+    web:
+      exposure:
+         include: "*" 
+info:
+   app:
+      name: @project.name@
+      description: @project.description@
+      version: @project.version@
