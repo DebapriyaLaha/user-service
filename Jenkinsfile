@@ -17,12 +17,17 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			 	sh 'mvn clean install --quiet -DskipTests'
 			 }
 		}
-		stage('Build Image') {
+		stage('Build Docker Image') {
 			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			container('docker') {
                 sh 'docker --version'
                 sh 'docker build . -t user-service:latest-snapshot'   
            }
+		}
+		stage('Publish Docker Image'){
+		    withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+               sh 'docker push user-service:latest-snapshot'
+            }
 		}
 	}
 
