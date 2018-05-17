@@ -26,7 +26,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Publish Docker Image'){
 			container('docker') {
-		    	withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+		    	withDockerRegistry(credentialsId: "docker-hub-credentials", url: "" ) {
 		      		script{
 		      			docker.image("user-service").push()
 		      		}
