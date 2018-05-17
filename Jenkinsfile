@@ -14,7 +14,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('checkout') {
 			 container('maven') {
-			 	sh 'mvn clean install'
+			 	sh 'mvn clean install -DskipTests'
 			 }
 		}
 	}
