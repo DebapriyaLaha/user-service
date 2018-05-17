@@ -20,7 +20,8 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Build Image') {
 			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			container('docker') {
-                sh 'docker --version'   
+                sh 'docker --version'
+                sh 'docker build . -t ${serviceName}:${gitCommit}'   
            }
 		}
 	}
