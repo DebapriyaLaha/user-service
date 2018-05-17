@@ -20,8 +20,8 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Build Image') {
 			 container('maven') {
-			    whoami
-			    docker --version
+			    sh 'whoami'
+			    sh 'docker --version'
 			 	app = docker.build("debapriyalaha/user-service")
 			 }
 		}
