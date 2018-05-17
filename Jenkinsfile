@@ -1,5 +1,7 @@
 podTemplate(label: 'user-service-pod-jenkins', containers: [
-    containerTemplate(name: 'maven', image: 'maven:3-alpine', ttyEnabled: true, command: 'cat')
+     containerTemplate(name: 'jnlp', image: 'larribas/jenkins-jnlp-slave-with-ssh:1.0.0', args: '${computer.jnlpmac} ${computer.name}'),
+     containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -9,20 +11,18 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 	  def app
 	  
 		stage('checkout') {
-			 container('maven') {
-			 	checkout scm
-			 }
+			 checkout scm
 		}
 		stage('Maven Build') {
 			 container('maven') {
-			 	sh 'mvn clean install -DskipTests -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=war'
+			 	sh 'mvn clean install --quiet -DskipTests'
 			 }
 		}
 		stage('Build Image') {
-			 
-			    sh 'whoami'
-			    sh 'docker --version'
-			 
+			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+			container('docker') {
+                sh 'docker --version'   
+           }
 		}
 	}
 
