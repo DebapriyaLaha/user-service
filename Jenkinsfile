@@ -15,11 +15,13 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Maven Build') {
 			 container('maven') {
-			 	sh 'mvn clean install -DskipTests'
+			 	sh 'mvn clean install -DskipTests -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=war'
 			 }
 		}
 		stage('Build Image') {
 			 container('maven') {
+			    whoami
+			    docker --version
 			 	app = docker.build("debapriyalaha/user-service")
 			 }
 		}
