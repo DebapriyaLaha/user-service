@@ -25,7 +25,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
            }
 		}
 		stage('Publish Docker Image'){
-		    withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+		    withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "https://hub.docker.com/r/debapriyalaha/" ]) {
                sh 'docker push user-service:latest-snapshot'
             }
 		}
