@@ -1,5 +1,6 @@
 podTemplate(label: 'user-service-pod-jenkins', containers: [
      containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+     containerTemplate(name: 'mongo', image: 'mongo', command: 'cat', ttyEnabled: true),
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
   volumes: [
@@ -22,6 +23,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			container('docker') {
                 sh 'docker --version'
                 sh 'docker build . -t debapriyalaha/user-service:latest-snapshot'   
+                sh 'docker ps'
            }
 		}
 		stage('Publish Docker Image'){
