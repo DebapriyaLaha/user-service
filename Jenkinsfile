@@ -4,7 +4,6 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
   envVars: [
-        envVar(key: '_JAVA_OPTIONS', value: jvmOptions),
         envVar(key: 'BRANCH_NAME', value: env.BRANCH_NAME),
         envVar(key: 'BUILD_NUMBER', value: env.BUILD_NUMBER)
   ],
