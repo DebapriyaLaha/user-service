@@ -1,6 +1,6 @@
 podTemplate(label: 'user-service-pod-jenkins', containers: [
      containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-     containerTemplate(name: 'mongo', image: 'mongo', command: 'cat', ttyEnabled: true),
+     containerTemplate(name: 'mongo', image: 'mongo', command: 'cat', ttyEnabled: true, ports: [name: 'port', containerPort:7000, hostPort:27017 ]),
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
   volumes: [
