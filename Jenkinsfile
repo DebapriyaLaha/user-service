@@ -27,14 +27,14 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Build Docker Image') {
 			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			container('docker') {
-                sh 'docker build . -t debapriyalaha/user-service:latest-snapshot'   
+                sh 'docker build . -t debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'   
            }
 		}
 		stage('Publish Docker Image'){
 			container('docker') {
 				withCredentials([usernamePassword( credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 					sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-					sh 'docker push debapriyalaha/user-service'  
+					sh 'docker push debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'  
             	}
 			}
 		}
