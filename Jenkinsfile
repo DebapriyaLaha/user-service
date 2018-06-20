@@ -35,8 +35,8 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 				withCredentials([usernamePassword( credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 					sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 					sh 'docker push debapriyalaha/user-service'  
-            }
+            	}
+			}
 		}
 	}
-
 }
