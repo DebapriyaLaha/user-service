@@ -33,9 +33,9 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Publish Docker Image'){
 			container('docker') {
-		    	withDockerRegistry(credentialsId: "dockerHub", url: "" ) {
+		    	
 		      		sh 'docker push debapriyalaha/user-service'  
-              	}
+              	
             }
 		}
 	}
