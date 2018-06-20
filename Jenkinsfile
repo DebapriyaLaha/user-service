@@ -29,10 +29,14 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			container('docker') {
                 sh 'docker --version'
                 sh 'docker build . -t debapriyalaha/user-service:latest-snapshot'   
-                sh 'docker ps'
-				sh 'docker login -u="debapriyalaha" -p="docker123"'
-				sh 'docker push debapriyalaha/user-service' 
            }
+		}
+		stage('Publish Docker Image'){
+			container('docker') {
+		    	withDockerRegistry(credentialsId: "dockerHub", url: "" ) {
+		      		sh 'docker push debapriyalaha/user-service'  
+              	}
+            }
 		}
 	}
 
