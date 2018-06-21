@@ -45,9 +45,9 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Choose environment') {
   			userInput = input(message: 'Choose an environment',    
-                    parameters: [ [$class: 'ChoiceParameterDefinition', choices: "Dev\nQA\nProd", name: 'Env']] 
+                    parameters: [ [$class: 'ChoiceParameterDefinition', choices: "Dev\nQA\nProd", name: 'Env']])
 			sh 'echo $userInput' 
-  )
-}
+		}
+
 	}
 }
