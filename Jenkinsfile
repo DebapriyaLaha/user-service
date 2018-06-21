@@ -12,8 +12,9 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 ]) {
 	node('user-service-pod-jenkins') {	
 	  
-	  def app
-	  def userInput=""
+	  	def app
+	  	def userInput = true
+		def didTimeout = false
 	  
 		stage('checkout') {
 			 checkout scm
@@ -43,23 +44,37 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
             	}
 			}
 		}
-		stage('Choose environment') {
-  			userInput = input(message: 'Choose an environment',    
-                    parameters: [ [$class: 'ChoiceParameterDefinition', choices: "Dev\nQA\nProd", name: 'Env']])
-			if (userInput.Env == "Dev") {
-				sh 'echo DEV.........'
-			}
+		stage('Proceed to DEV?') {
+  			try {
+					timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
+						userInput = input(
+						id: 'Proceed1', message: 'Should proceed to DEV?', parameters: [
+						[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+						])
+					}
+				} catch(err) { // timeout reached or input false
+					def user = err.getCauses()[0].getUser()
+					if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+						didTimeout = true
+					} else {
+						userInput = false
+						echo "Aborted by: [${user}]"
+					}
+				}
+
 		}
-		stage('Deploy code'){
-			node('deploy'){
-				if (userInput.Env == "Dev") {
-				// deploy dev stuff
-				} else if (userInput.Env == "QA"){
-				// deploy qa stuff
-				} else {
-				// deploy prod stuff
-			}
-			}
+		stage('Deploy to DEV'){
+			if (didTimeout) {
+				// do something on timeout
+				echo "no input was received before timeout"
+			} else if (userInput == true) {
+				// do something
+				echo "this was successful"
+			} else {
+				// do something else
+				echo "this was not successful"
+				currentBuild.result = 'FAILURE'
+			} 
 		}
 	}
 }
