@@ -27,7 +27,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Check Mongo container') {
 			container('mongo') {
-                sh 'mongod status'   
+                sh 'ps -ax | grep mongo'   
            }
 		}
 		stage('Build Docker Image') {
