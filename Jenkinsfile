@@ -13,6 +13,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 	node('user-service-pod-jenkins') {	
 	  
 	  def app
+	  def userInput=""
 	  
 		stage('checkout') {
 			 checkout scm
@@ -24,8 +25,12 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			 	sh 'mvn clean install --quiet -DskipTests'
 			 }
 		}
+		stage('Check Mongo container') {
+			container('mongo') {
+                sh 'mongo localhost:27017'   
+           }
+		}
 		stage('Build Docker Image') {
-			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			container('docker') {
                 sh 'docker build . -t debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'   
            }
@@ -38,5 +43,11 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
             	}
 			}
 		}
+		stage('Choose environment') {
+  			userInput = input(message: 'Choose an environment',    
+                    parameters: [ [$class: 'ChoiceParameterDefinition', choices: "Dev\nQA\nProd", name: 'Env']] 
+			sh 'echo $userInput' 
+  )
+}
 	}
 }
