@@ -46,8 +46,20 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Choose environment') {
   			userInput = input(message: 'Choose an environment',    
                     parameters: [ [$class: 'ChoiceParameterDefinition', choices: "Dev\nQA\nProd", name: 'Env']])
-			sh 'echo $userInput' 
+			if (userInput.Env == "Dev") {
+				sh 'echo DEV.........'
+			}
 		}
-
+		stage('Deploy code'){
+			node('deploy'){
+				if (userInput.Env == "Dev") {
+				// deploy dev stuff
+				} else if (userInput.Env == "QA"){
+				// deploy qa stuff
+				} else {
+				// deploy prod stuff
+			}
+			}
+		}
 	}
 }
