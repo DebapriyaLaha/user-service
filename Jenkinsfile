@@ -37,6 +37,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			 container('maven') {
 			    sh 'echo $BRANCH_NAME'
 			    sh 'echo $BUILD_NUMBER'
+			    sh 'mvn dependency:resolve'
 			 	sh 'mvn clean install -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT'
 			 }
 		}
