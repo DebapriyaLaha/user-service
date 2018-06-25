@@ -36,7 +36,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Maven Build') {
 			 container('maven') {
 			    sh 'echo $BRANCH_NAME'
-			 	sh 'mvn clean install -X -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT | egrep -v ' Download(ing|ed): '
+			 	sh 'mvn clean install -X -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT | egrep -v '' Download(ing|ed): '''
 			 }
 		}
 		
