@@ -31,12 +31,14 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Check Mongo container') {
 			container('mongo') {
                 sh 'ps -ax | grep mongo'   
+                sh 'mongod show dbs'
+                sh 'mongod show users'
            }
 		}
 		stage('Maven Build') {
 			 container('maven') {
 			    sh 'echo $BRANCH_NAME'
-			 	sh 'mvn clean install -X -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT'
+			 	sh 'mvn clean install -X -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT -Dspring.data.mongodb.username=root -Dspring.data.mongodb.password=pass'
 			 }
 		}
 		
