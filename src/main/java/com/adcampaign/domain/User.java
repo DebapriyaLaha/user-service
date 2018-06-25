@@ -1,32 +1,23 @@
 package com.adcampaign.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Entity
-@Table(name = "user")
+@Document(collection = "domain")
 public class User {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id",unique=true,nullable=false)
-	private Integer id;
+	private String id;
 	
-	@Column(name="user_firstname",nullable=false)
 	private String firstName;
 	
-	@Column(name="user_lastname",nullable=false)
 	private String lastName;
 	
-	@Column(name="user_email")
+	@Indexed(unique = true)
 	private String email;
 	
-	@Column(name="user_address")
 	private String address;
 	
 	public User() {}
@@ -38,10 +29,10 @@ public class User {
 		this.address = address;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFirstName() {

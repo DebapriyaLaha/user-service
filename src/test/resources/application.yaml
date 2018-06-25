@@ -7,8 +7,6 @@ spring:
         banner-mode: "off" 
     data:
         mongodb:
-           host: localhost
-           port: 27017
            database: users
            
 logging: 

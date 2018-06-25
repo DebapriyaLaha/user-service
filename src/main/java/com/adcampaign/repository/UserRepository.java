@@ -2,16 +2,13 @@ package com.adcampaign.repository;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Component;
 
 import com.adcampaign.domain.User;
 
-@Repository
-@Transactional
-public interface  UserRepository extends JpaRepository<User, Integer>{
+@Component
+public interface  UserRepository extends MongoRepository<User, String>{
 
 	List<User> findByLastName(String lastName);
 	

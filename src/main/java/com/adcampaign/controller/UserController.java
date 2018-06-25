@@ -11,13 +11,13 @@ import com.adcampaign.domain.User;
 import com.adcampaign.repository.UserRepository;
 
 @RestController
-public class UserResource{
+public class UserController{
 	
 
 	@Autowired
 	private UserRepository userRepository;
 	
-	@GetMapping("/users")
+	@GetMapping("/findAll")
 	public List<User> retrieveAllUsers() {
 		return userRepository.findAll();
 	}
