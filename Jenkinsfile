@@ -2,10 +2,6 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
      containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
       containerTemplate(name: 'mongo', image: 'mongo', 
      				ports: [portMapping(name: 'mongo', containerPort: 27017, hostPort: 27017)], 
-     				envVars: [
-				                envVar(key: 'MONGO_INITDB_ROOT_USERNAME', value: 'root'),
-				                envVar(key: 'MONGO_INITDB_ROOT_PASSWORD', value: 'pass')
-				              ],
 				    command: 'mongod'
      				),
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
@@ -31,7 +27,6 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Check Mongo container') {
 			container('mongo') {
                 sh 'ps -ax | grep mongo'   
-                sh 'mongo --quiet --eval  \"printjson(db.adminCommand('listDatabases'))\"'
            }
 		}
 		stage('Maven Build') {
