@@ -12,7 +12,9 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
   ],
   envVars: [
         envVar(key: 'BRANCH_NAME', value: env.BRANCH_NAME),
-        envVar(key: 'BUILD_NUMBER', value: env.BUILD_NUMBER)
+        envVar(key: 'BUILD_NUMBER', value: env.BUILD_NUMBER),
+        envVar(key: 'MONGO_HOST', value: 'mongo'),
+        envVar(key: 'MONGO_PORT', value: '27017')
   ],
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -35,7 +37,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 			 container('maven') {
 			    sh 'echo $BRANCH_NAME'
 			    sh 'echo $BUILD_NUMBER'
-			 	sh 'mvn clean install'
+			 	sh 'mvn clean install -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT'
 			 }
 		}
 		
