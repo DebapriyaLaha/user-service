@@ -5,7 +5,8 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
      				envVars: [
 				                envVar(key: 'MONGO_INITDB_ROOT_USERNAME', value: 'root'),
 				                envVar(key: 'MONGO_INITDB_ROOT_PASSWORD', value: 'pass')
-				              ]
+				              ],
+				    command: 'mongod'
      				),
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
@@ -39,14 +40,14 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Build Docker Image') {
 			container('docker') {
-                sh 'docker build . -t debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'   
+                sh 'docker build . -t debapriyalaha/user-service:$BRANCH_NAME'   
            }
 		}
 		stage('Publish Docker Image'){
 			container('docker') {
 				withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 					sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-					sh 'docker push debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'  
+					sh 'docker push debapriyalaha/user-service:$BRANCH_NAME'  
             	}
 			}
 		}
