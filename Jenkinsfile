@@ -26,18 +26,19 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('checkout') {
 			 checkout scm
 		}
-		stage('Maven Build') {
-			 container('maven') {
-			    sh 'echo $BRANCH_NAME'
-			    sh 'echo $BUILD_NUMBER'
-			 	sh 'mvn clean install --quiet -DskipTests'
-			 }
-		}
 		stage('Check Mongo container') {
 			container('mongo') {
                 sh 'ps -ax | grep mongo'   
            }
 		}
+		stage('Maven Build') {
+			 container('maven') {
+			    sh 'echo $BRANCH_NAME'
+			    sh 'echo $BUILD_NUMBER'
+			 	sh 'mvn clean install'
+			 }
+		}
+		
 		stage('Build Docker Image') {
 			container('docker') {
                 sh 'docker build . -t debapriyalaha/user-service:$BRANCH_NAME'   
