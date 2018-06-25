@@ -1,6 +1,12 @@
 podTemplate(label: 'user-service-pod-jenkins', containers: [
      containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-     containerTemplate(name: 'mongo', image: 'mongo', command: 'cat', ttyEnabled: true),
+      containerTemplate(name: 'mongo', image: 'mongo', 
+     				ports: [portMapping(name: 'mongo', containerPort: 27017, hostPort: 27017)], 
+     				envVars: [
+				                envVar(key: 'MONGO_INITDB_ROOT_USERNAME', value: 'root'),
+				                envVar(key: 'MONGO_INITDB_ROOT_PASSWORD', value: 'pass')
+				              ]
+     				),
      containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ],
   envVars: [
@@ -46,7 +52,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Proceed to DEV?') {
   			try {
-					timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
+					timeout(time: 60, unit: 'SECONDS') { // change to a convenient timeout for you
 						userInput = input(
 						id: 'Proceed1', message: 'Should proceed to DEV?', parameters: [
 						[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
