@@ -31,7 +31,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		stage('Check Mongo container') {
 			container('mongo') {
                 sh 'ps -ax | grep mongo'   
-                sh 'mongo --quiet --eval  "printjson(db.adminCommand('listDatabases'))"'
+                sh 'mongo --quiet --eval  \"printjson(db.adminCommand('listDatabases'))\"'
            }
 		}
 		stage('Maven Build') {
