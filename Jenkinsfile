@@ -51,6 +51,11 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
             	}
 			}
 		}
+		stage('Stop MongoDB') {
+			container('mongo') {
+                sh 'mongod --shutdown'   
+           }
+		}
 		stage('Proceed to DEV?') {
   			try {
 					timeout(time: 60, unit: 'SECONDS') { // change to a convenient timeout for you
