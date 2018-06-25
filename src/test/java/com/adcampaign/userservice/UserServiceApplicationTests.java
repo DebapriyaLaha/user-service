@@ -20,6 +20,7 @@ public class UserServiceApplicationTests {
 	
 	@Test
 	public void contextLoads() {
+		System.out.println("Starting.....");
 		this.controller.save();
 		System.out.println(this.controller.retrieveAllUsers());
 	}
