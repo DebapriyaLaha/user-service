@@ -44,7 +44,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
 		}
 		stage('Publish Docker Image'){
 			container('docker') {
-				withCredentials([usernamePassword( credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+				withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 					sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 					sh 'docker push debapriyalaha/user-service:$BRANCH_NAME-$BUILD_NUMBER'  
             	}
