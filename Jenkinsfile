@@ -9,7 +9,7 @@ podTemplate(label: 'user-service-pod-jenkins', containers: [
   envVars: [
         envVar(key: 'BRANCH_NAME', value: env.BRANCH_NAME),
         envVar(key: 'BUILD_NUMBER', value: env.BUILD_NUMBER),
-        envVar(key: 'MONGO_HOST', value: 'mongo'),
+        envVar(key: 'MONGO_HOST', value: 'localhost'),
         envVar(key: 'MONGO_PORT', value: '27017')
   ],
   volumes: [
